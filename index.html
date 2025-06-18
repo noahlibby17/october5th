@@ -31,32 +31,42 @@
 
                         <ul id="image-list" class="box-container three-cols"></ul>
                         <script>
-                            // Get base image url from secret
-                            const configRes = await fetch('config/env.json');
-                            const config = await configRes.json();
-                            const baseUrl = config.IMAGE_BASE_URL;
-
-                            // Choose set via URL, e.g., ?set=ceremony
                             const params = new URLSearchParams(window.location.search);
-                            const set = params.get("set") || "ceremony"; // default to ceremony
-                        
-                            fetch(`${base_url}/${set}.json`)
-                                .then(response => {
-                                    if (!response.ok) {
-                                        throw new Error(`HTTP Error: ${response.status}`);
-                                    }
-                                    return response.json();
-                                    })
-                                .then(imageUrls => {
-                                    window.imageUrls = imageUrls;
+                            const set = params.get("set") || "ceremony";
+                            // Pull base image url from secret
+                            fetch('config/env.json')
+                              .then(res => {
+                                if (!res.ok) {
+                                  throw new Error(`Failed to load config: ${res.status}`);
+                                }
+                                return res.json();
+                              })
 
-                                    const main = document.createElement("script");
-                                    main.src = "js/image_list.js";
-                                    document.body.appendChild(main);
-                                })
-                                .catch(error => {
-                                    console.error("Failed to load image data: ", error)
-                                })
+                              // Get correct set of images from URL param (i.e. ?set=ceremony)
+                              .then(config => {
+                                const baseUrl = config.IMAGE_BASE_URL;
+                                return fetch(`${baseUrl}/${set}.json`);
+                              })
+
+                              // Pull the correct list of image urls
+                              .then(res => {
+                                if (!res.ok) {
+                                  throw new Error(`Failed to load image JSON: ${res.status}`);
+                                }
+                                return res.json();
+                              })
+                          
+                              // Build gallery
+                              .then(imageUrls => {
+                                window.imageUrls = imageUrls;
+                          
+                                const main = document.createElement("script");
+                                main.src = "js/image_list.js";
+                                document.body.appendChild(main);
+                              })
+                              .catch(err => {
+                                console.error("Error loading data:", err);
+                              });
                           </script>
                     </div>
                 </div>
