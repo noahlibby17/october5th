@@ -31,22 +31,11 @@
 
                         <ul id="image-list" class="box-container three-cols"></ul>
                         <script>
+                            // Build correct photoset link from URL params
                             const params = new URLSearchParams(window.location.search);
                             const set = params.get("set") || "ceremony";
-                            // Pull base image url from secret
-                            fetch('config/env.json')
-                              .then(res => {
-                                if (!res.ok) {
-                                  throw new Error(`Failed to load config: ${res.status}`);
-                                }
-                                return res.json();
-                              })
-
-                              // Get correct set of images from URL param (i.e. ?set=ceremony)
-                              .then(config => {
-                                const baseUrl = __IMAGE_BASE_URL__;
-                                return fetch(`${baseUrl}/${set}.json`);
-                              })
+                            const baseUrl = __IMAGE_BASE_URL__;
+                             fetch(`${baseUrl}/${set}.json`)
 
                               // Pull the correct list of image urls
                               .then(res => {
