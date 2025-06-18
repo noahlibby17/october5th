@@ -44,7 +44,7 @@
 
                               // Get correct set of images from URL param (i.e. ?set=ceremony)
                               .then(config => {
-                                const baseUrl = config.IMAGE_BASE_URL;
+                                const baseUrl = __IMAGE_BASE_URL__;
                                 return fetch(`${baseUrl}/${set}.json`);
                               })
 
