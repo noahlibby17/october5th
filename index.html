@@ -37,7 +37,7 @@
                             const params = new URLSearchParams(window.location.search);
                             const set = params.get("set") || "ceremony"; // default to ceremony
                         
-                            fetch(`data/${set}.json`)
+                            fetch(`${set}.json`)
                                 .then(response => {
                                     if (!response.ok) {
                                         throw new Error(`HTTP Error: ${response.status}`);
