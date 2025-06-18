@@ -49,7 +49,7 @@ jobs:
 
       - name: Replace IMAGE_BASE_URL placeholder
         run: |
-          sed -i 's|__IMAGE_BASE_URL__|"${{ secrets.IMAGE_BASE_URL }}"|g' build/index.html
+          sed -i "s|__IMAGE_BASE_URL__|\"${{ secrets.IMAGE_BASE_URL }}\"|g" build/index.html
 
       - name: Deploy to GitHub Pages
         if: env.DRY_RUN != 'true'
