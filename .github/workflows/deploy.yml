@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       DRY_RUN: ${{ secrets.DRY_RUN }}
+      IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -49,7 +50,7 @@ jobs:
 
       - name: Replace IMAGE_BASE_URL placeholder
         run: |
-          sed -i "s|__IMAGE_BASE_URL__|\"${{ secrets.IMAGE_BASE_URL }}\"|g" build/index.html
+          sed -i "s|__IMAGE_BASE_URL__|\"$IMAGE_BASE_URL\"|g" build/index.html
 
       - name: Deploy to GitHub Pages
         if: env.DRY_RUN != 'true'
