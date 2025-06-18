@@ -52,6 +52,7 @@ jobs:
           IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
         run: |
           sed -i "s|__IMAGE_BASE_URL__|\"$IMAGE_BASE_URL\"|g" build/index.html
+          echo $IMAGE_BASE_URL
 
       - name: Deploy to GitHub Pages
         if: env.DRY_RUN != 'true'
