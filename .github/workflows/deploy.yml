@@ -20,7 +20,6 @@ jobs:
 
       - name: Pull image urls from gh secrets
         run: |
-          mkdir -p build/config
           mkdir -p build/data
           curl -L "$CEREMONY" -o build/data/ceremony.json
           curl -L "$DETAILS" -o build/data/details.json
@@ -55,7 +54,7 @@ jobs:
 
       - name: Replace IMAGE_BASE_URL placeholder
         env:
-          IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
+          IMAGE_BASE_URL: ${{ vars.IMAGE_BASE_URL }}
         run: |
           sed -i "s|__IMAGE_BASE_URL__|\"$IMAGE_BASE_URL\"|g" build/index.html
           echo "Sed command executed. Showing content after sed:"
