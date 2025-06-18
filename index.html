@@ -35,27 +35,27 @@
                             const params = new URLSearchParams(window.location.search);
                             const set = params.get("set") || "ceremony";
                             const baseUrl = __IMAGE_BASE_URL__;
-                             fetch(`${baseUrl}/${set}.json`)
+                            fetch(`${baseUrl}/${set}.json`)
 
-                              // Pull the correct list of image urls
-                              .then(res => {
-                                if (!res.ok) {
-                                  throw new Error(`Failed to load image JSON: ${res.status}`);
-                                }
-                                return res.json();
-                              })
+                            // Pull the correct list of image urls
+                            .then(res => {
+                              if (!res.ok) {
+                                throw new Error(`Failed to load image JSON: ${res.status}`);
+                              }
+                              return res.json();
+                            })
                           
-                              // Build gallery
-                              .then(imageUrls => {
-                                window.imageUrls = imageUrls;
+                            // Build gallery
+                            .then(imageUrls => {
+                              window.imageUrls = imageUrls;
                           
-                                const main = document.createElement("script");
-                                main.src = "js/image_list.js";
-                                document.body.appendChild(main);
-                              })
-                              .catch(err => {
-                                console.error("Error loading data:", err);
-                              });
+                              const main = document.createElement("script");
+                              main.src = "js/image_list.js";
+                              document.body.appendChild(main);
+                            })
+                            .catch(err => {
+                              console.error("Error loading data:", err);
+                            });
                           </script>
                     </div>
                 </div>
