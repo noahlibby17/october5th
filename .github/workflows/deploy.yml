@@ -20,6 +20,8 @@ jobs:
 
       - name: Pull image urls from gh secrets
         run: |
+          mkdir -p build/config
+          echo "{\"IMAGE_BASE_URL\": \"${{ secrets.IMAGE_BASE_URL }}\"}" > build/config/env.json
           mkdir -p build/data
           curl -L "$CEREMONY" -o build/data/ceremony.json
           curl -L "$DETAILS" -o build/data/details.json

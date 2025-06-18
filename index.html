@@ -21,23 +21,26 @@
 
     <body>
 
-        <!-- Simple images example -->
-        <section id="examples" class="section">
+        <section id="gallery" class="section">
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
                         <h3>
-                            <i class="fa fa-camera-retro heading-icon" aria-hidden="true"></i>
-                            Noah & Meagan
+                            Noah & Meagan // October 5th, 2024
                         </h3>
 
                         <ul id="image-list" class="box-container three-cols"></ul>
                         <script>
+                            // Get base image url from secret
+                            const configRes = await fetch('config/env.json');
+                            const config = await configRes.json();
+                            const baseUrl = config.IMAGE_BASE_URL;
+
                             // Choose set via URL, e.g., ?set=ceremony
                             const params = new URLSearchParams(window.location.search);
                             const set = params.get("set") || "ceremony"; // default to ceremony
                         
-                            fetch(`${set}.json`)
+                            fetch(`${base_url}/${set}.json`)
                                 .then(response => {
                                     if (!response.ok) {
                                         throw new Error(`HTTP Error: ${response.status}`);
@@ -63,7 +66,7 @@
 
         <footer class="text-center">
             <div class="wrap copyright">
-                made with love by
+                made with ♡ by
                 <a href="https://github.com/noahlibby17" target="_blank">Noah Libby</a>
                 | photos by
                 <a href="https://www.meganraifreeman.com/" target="_blank">Megan Rae Freeman</a>
