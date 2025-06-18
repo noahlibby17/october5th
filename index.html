@@ -1,0 +1,90 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+
+        <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+        <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="css/styles.css" />
+        <link rel="stylesheet" href="css/glightbox.css" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    </head>
+
+    <body>
+
+        <!-- Simple images example -->
+        <section id="examples" class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>
+                            <i class="fa fa-camera-retro heading-icon" aria-hidden="true"></i>
+                            Noah & Meagan
+                        </h3>
+
+                        <ul id="image-list" class="box-container three-cols"></ul>
+                        <script>
+                            // Choose set via URL, e.g., ?set=ceremony
+                            const params = new URLSearchParams(window.location.search);
+                            const set = params.get("set") || "ceremony"; // default to ceremony
+                        
+                            fetch(`data/${set}.json`)
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error(`HTTP Error: ${response.status}`);
+                                    }
+                                    return response.json();
+                                    })
+                                .then(imageUrls => {
+                                    window.imageUrls = imageUrls;
+
+                                    const main = document.createElement("script");
+                                    main.src = "js/image_list.js";
+                                    document.body.appendChild(main);
+                                })
+                                .catch(error => {
+                                    console.error("Failed to load image data: ", error)
+                                })
+                          </script>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <footer class="text-center">
+            <div class="wrap copyright">
+                made with love by
+                <a href="https://github.com/noahlibby17" target="_blank">Noah Libby</a>
+                | photos by
+                <a href="https://www.meganraifreeman.com/" target="_blank">Megan Rae Freeman</a>
+            </div>
+        </footer>
+        <script src="https://cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+        <script src="js/valde.min.js"></script>
+        <script src="js/glightbox.js"></script>
+        <script src="js/site.js"></script>
+        <script>
+            var lightbox = GLightbox();
+            lightbox.on('open', (target) => {
+                console.log('lightbox opened');
+            });
+            var lightboxDescription = GLightbox({
+                selector: '.glightbox2'
+            });
+            var lightboxInlineIframe = GLightbox({
+                selector: '.glightbox4'
+            });
+
+        </script>
+    </body>
+</html>

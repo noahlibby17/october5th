@@ -1,0 +1,11 @@
+## Modules
+node_modules/
+
+## Local Secrets
+.secrets
+
+## Mac-specific
+.DS_STORE
+
+## Remove any local builds
+build/
