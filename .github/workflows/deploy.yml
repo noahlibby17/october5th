@@ -47,15 +47,20 @@ jobs:
           cp -r js/* build/js/
           cp -r css/* build/css/
 
-      - name: List files in build directory
-        run: ls -lR build/
+      - name: Show content of index.html before sed
+        run: |
+          echo "Content of build/index.html before sed:"
+          cat build/index.html
+          echo "--- End index.html content ---"
 
       - name: Replace IMAGE_BASE_URL placeholder
         env:
           IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
         run: |
-          echo "IMAGE_BASE_URL is: $IMAGE_BASE_URL"
           sed -i "s|__IMAGE_BASE_URL__|\"$IMAGE_BASE_URL\"|g" build/index.html
+          echo "Sed command executed. Showing content after sed:"
+          cat build/index.html # Show content after sed to verify replacement
+          echo "--- End index.html content after sed ---"
 
       - name: Deploy to GitHub Pages
         if: env.DRY_RUN != 'true'
