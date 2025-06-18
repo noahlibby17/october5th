@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     env: 
       DRY_RUN: ${{ secrets.DRY_RUN }}
-      IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -49,6 +48,8 @@ jobs:
           cp -r css/* build/css/
 
       - name: Replace IMAGE_BASE_URL placeholder
+        env:
+          IMAGE_BASE_URL: ${{ secrets.IMAGE_BASE_URL }}
         run: |
           sed -i "s|__IMAGE_BASE_URL__|\"$IMAGE_BASE_URL\"|g" build/index.html
 
