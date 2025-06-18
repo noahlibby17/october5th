@@ -61,11 +61,13 @@ jobs:
           cat build/index.html # Show content after sed to verify replacement
           echo "--- End index.html content after sed ---"
 
+      - name: Logging before deploy
+        run: |
+          cat build/index.html # Show content after sed to verify replacement
+
       - name: Deploy to GitHub Pages
         if: env.DRY_RUN != 'true'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build
-        run: 
-          cat build/index.html # Show content after sed to verify replacement
