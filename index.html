@@ -34,8 +34,7 @@
                             // Build correct photoset link from URL params
                             const params = new URLSearchParams(window.location.search);
                             const set = params.get("set") || "ceremony";
-                            const baseUrl = __IMAGE_BASE_URL__;
-                            fetch(`${baseUrl}/${set}.json`)
+                            fetch(`/links/${set}.json`)
 
                             // Pull the correct list of image urls
                             .then(res => {
