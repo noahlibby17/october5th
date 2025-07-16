@@ -1,32 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<script>
-    function loadImageSet(defaultSet = "ceremony") {
-        const params = new URLSearchParams(window.location.search);
-        const set = window.location.hash ? window.location.hash.substring(1) : defaultSet;
-
-        fetch(`/links/${set}.json`)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`Failed to load image JSON: ${res.status}`);
-                }
-                return res.json();
-            })
-            .then(imageUrls => {
-                window.imageUrls = imageUrls;
-
-                const main = document.createElement("script");
-                main.src = "js/image_list.js";
-                document.body.appendChild(main);
-            })
-            .catch(err => {
-                console.error("Error loading data:", err);
-            });
-    }
-</script>
-
 <head>
+    <script type="module">
+        import { renderImages } from './js/image_list.js';
+
+        async function loadImageSet(defaultSet = "ceremony") {
+            const set = window.location.hash ? window.location.hash.substring(1) : defaultSet;
+            const list = document.getElementById("image-list");
+            list.innerHTML = ""; // Clear list
+
+            try {
+                const res = await fetch(`/links/${set}.json`);
+                if (!res.ok) throw new Error(`Failed to load ${set}.json`);
+                const imageUrls = await res.json();
+                renderImages(imageUrls);
+            } catch (e) {
+                console.error(e);
+                list.innerHTML = `<li class="error">Error. Could not load "${set}" image set.</li>`;
+            }
+        }
+
+        // Function to highlight nav link based on hash value
+        function setActiveNavLink() {
+            const currentHash = window.location.hash || '#ceremony'; // Default set
+            const links = document.querySelectorAll('.topnav a');
+            links.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === currentHash);
+            });
+        }
+
+        // Load on hash change
+        window.addEventListener("hashchange", () => {
+            loadImageSet();
+            setActiveNavLink();
+        });
+
+        // Load on page load
+        window.addEventListener("DOMContentLoaded", () => {
+            loadImageSet();
+            setActiveNavLink();
+        });
+    </script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.js"></script>
+    <script src="https://unpkg.com/imagesloaded@4/imagesloaded.pkgd.min.js"></script>
+
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
@@ -57,18 +75,15 @@
 </div>
 
 <body>
-    <h3>
-        Noah & Meagan // October 5th, 2024
-    </h3>
 
     <section id="gallery" class="section">
 
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <ul id="image-list" class="box-container three-cols"></ul>
+                    <ul id="image-list" class="box-container"></ul>
                     <script>
-                         // Reload images whenever the hash changes
+                        // Reload images whenever the hash changes
                         window.addEventListener("hashchange", () => {
                             loadImageSet();
                         });

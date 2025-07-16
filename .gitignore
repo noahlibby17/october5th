@@ -1,9 +1,11 @@
 ## Modules
 node_modules/
 
-## Local Secrets and Vars
+## Local secrets, vars, dirs
 .secrets
 .vars
+images/
+links/
 
 ## Mac-specific
 .DS_STORE
