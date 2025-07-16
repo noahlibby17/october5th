@@ -19,21 +19,45 @@
 
     </head>
 
+    <!-- Dropdown menu for small screens -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Navigation tab menu -->
+    <div class="topnav" id="myTopnav" font-family="Gilroy" display="flex" align-items="center">
+        <a href="#ceremony" class="ceremony">Ceremony</a>
+        <a href="#details" class="details">Details</a>
+        <a href="#getting_ready" class="getting_ready">Getting Ready</a>
+        <a href="#the_couple" class="the_couple">The Couple</a>
+        <a href="#reception" class="reception">Reception</a>
+        <a href="#group_family" class="group_family">Group & Family</a>
+        <a href="#film_scans" class="film_scans">Film Scans</a>
+        <a href="javascript:void(0);" class="icon" onclick="navLoader()">
+            <i class="fa fa-bars"></i>
+        </a>
+    </div>
+
     <body>
+        <h3>
+            Noah & Meagan // October 5th, 2024 
+        </h3>
 
         <section id="gallery" class="section">
+            
             <div class="container">
                 <div class="row">
                     <div class="col-md-12">
-                        <h3>
-                            Noah & Meagan // October 5th, 2024
-                        </h3>
-
                         <ul id="image-list" class="box-container three-cols"></ul>
                         <script>
                             // Build correct photoset link from URL params
                             const params = new URLSearchParams(window.location.search);
-                            const set = params.get("set") || "ceremony";
+                            if(window.location.hash) {
+                            // Fragment exists
+                                var set = window.location.hash.substring(1);
+                            } else {
+                            // Fragment doesn't exist
+                                var set = "ceremony";
+                            }
+                            //const set = params.get("set") || "ceremony";
+
                             fetch(`/links/${set}.json`)
 
                             // Pull the correct list of image urls
@@ -86,6 +110,17 @@
                 selector: '.glightbox4'
             });
 
+        </script>
+        <script>
+        /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+        function navLoader() {
+            var x = document.getElementById("myTopnav");
+                if (x.className === "topnav") {
+                    x.className += " responsive";
+                } else {
+                    x.className = "topnav";
+                }
+            }
         </script>
     </body>
 </html>
