@@ -1,126 +1,121 @@
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-        <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
-        <link
-            rel="stylesheet"
-            href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-            integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-            crossorigin="anonymous"
-        />
-        <link rel="stylesheet" href="css/styles.css" />
-        <link rel="stylesheet" href="css/glightbox.css" />
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+<script>
+    function loadImageSet(defaultSet = "ceremony") {
+        const params = new URLSearchParams(window.location.search);
+        const set = window.location.hash ? window.location.hash.substring(1) : defaultSet;
 
-    </head>
+        fetch(`/links/${set}.json`)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`Failed to load image JSON: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(imageUrls => {
+                window.imageUrls = imageUrls;
 
-    <!-- Dropdown menu for small screens -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- Navigation tab menu -->
-    <div class="topnav" id="myTopnav" font-family="Gilroy" display="flex" align-items="center">
-        <a href="#ceremony" class="ceremony">Ceremony</a>
-        <a href="#details" class="details">Details</a>
-        <a href="#getting_ready" class="getting_ready">Getting Ready</a>
-        <a href="#the_couple" class="the_couple">The Couple</a>
-        <a href="#reception" class="reception">Reception</a>
-        <a href="#group_family" class="group_family">Group & Family</a>
-        <a href="#film_scans" class="film_scans">Film Scans</a>
-        <a href="javascript:void(0);" class="icon" onclick="navLoader()">
-            <i class="fa fa-bars"></i>
-        </a>
-    </div>
+                const main = document.createElement("script");
+                main.src = "js/image_list.js";
+                document.body.appendChild(main);
+            })
+            .catch(err => {
+                console.error("Error loading data:", err);
+            });
+    }
+</script>
 
-    <body>
-        <h3>
-            Noah & Meagan // October 5th, 2024 
-        </h3>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
 
-        <section id="gallery" class="section">
-            
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-12">
-                        <ul id="image-list" class="box-container three-cols"></ul>
-                        <script>
-                            // Build correct photoset link from URL params
-                            const params = new URLSearchParams(window.location.search);
-                            if(window.location.hash) {
-                            // Fragment exists
-                                var set = window.location.hash.substring(1);
-                            } else {
-                            // Fragment doesn't exist
-                                var set = "ceremony";
-                            }
-                            //const set = params.get("set") || "ceremony";
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/glightbox.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
 
-                            fetch(`/links/${set}.json`)
+</head>
 
-                            // Pull the correct list of image urls
-                            .then(res => {
-                              if (!res.ok) {
-                                throw new Error(`Failed to load image JSON: ${res.status}`);
-                              }
-                              return res.json();
-                            })
-                        
-                            // Build gallery
-                            .then(imageUrls => {
-                              window.imageUrls = imageUrls;
-                          
-                              const main = document.createElement("script");
-                              main.src = "js/image_list.js";
-                              document.body.appendChild(main);
-                            })
-                            .catch(err => {
-                              console.error("Error loading data:", err);
-                            });
-                          </script>
-                    </div>
+<!-- Dropdown menu for small screens -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Navigation tab menu -->
+<div class="topnav" id="myTopnav" font-family="Gilroy" display="flex" align-items="center">
+    <a href="#ceremony" class="ceremony">Ceremony</a>
+    <a href="#details" class="details">Details</a>
+    <a href="#getting_ready" class="getting_ready">Getting Ready</a>
+    <a href="#the_couple" class="the_couple">The Couple</a>
+    <a href="#reception" class="reception">Reception</a>
+    <a href="#group_family" class="group_family">Group & Family</a>
+    <a href="#film_scans" class="film_scans">Film Scans</a>
+    <a href="javascript:void(0);" class="icon" onclick="navLoader()">
+        <i class="fa fa-bars"></i>
+    </a>
+</div>
+
+<body>
+    <h3>
+        Noah & Meagan // October 5th, 2024
+    </h3>
+
+    <section id="gallery" class="section">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <ul id="image-list" class="box-container three-cols"></ul>
+                    <script>
+                         // Reload images whenever the hash changes
+                        window.addEventListener("hashchange", () => {
+                            loadImageSet();
+                        });
+                    </script>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
 
-        <footer class="text-center">
-            <div class="wrap copyright">
-                made with ♡ by
-                <a href="https://github.com/noahlibby17" target="_blank">Noah Libby</a>
-                | photos by
-                <a href="https://www.meganraifreeman.com/" target="_blank">Megan Rae Freeman</a>
-            </div>
-        </footer>
-        <script src="https://cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
-        <script src="js/valde.min.js"></script>
-        <script src="js/glightbox.js"></script>
-        <script src="js/site.js"></script>
-        <script>
-            var lightbox = GLightbox();
-            lightbox.on('open', (target) => {
-                console.log('lightbox opened');
-            });
-            var lightboxDescription = GLightbox({
-                selector: '.glightbox2'
-            });
-            var lightboxInlineIframe = GLightbox({
-                selector: '.glightbox4'
-            });
+    <footer class="text-center">
+        <div class="wrap copyright">
+            made with ♡ by
+            <a href="https://github.com/noahlibby17" target="_blank">Noah Libby</a>
+            | photos by
+            <a href="https://www.meganraifreeman.com/" target="_blank">Megan Rae Freeman</a>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js"></script>
+    <script src="js/valde.min.js"></script>
+    <script src="js/glightbox.js"></script>
+    <script src="js/site.js"></script>
+    <script>
+        var lightbox = GLightbox();
+        lightbox.on('open', (target) => {
+            console.log('lightbox opened');
+        });
+        var lightboxDescription = GLightbox({
+            selector: '.glightbox2'
+        });
+        var lightboxInlineIframe = GLightbox({
+            selector: '.glightbox4'
+        });
 
-        </script>
-        <script>
+    </script>
+    <script>
         /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
         function navLoader() {
             var x = document.getElementById("myTopnav");
-                if (x.className === "topnav") {
-                    x.className += " responsive";
-                } else {
-                    x.className = "topnav";
-                }
+            if (x.className === "topnav") {
+                x.className += " responsive";
+            } else {
+                x.className = "topnav";
             }
-        </script>
-    </body>
+        }
+    </script>
+
+</body>
+
 </html>
