@@ -24,7 +24,7 @@ export function renderImages(imageUrls) {
       const li = document.createElement("li");
       li.classList.add("box");
       const img = document.createElement("img");
-      img.src = url;
+      img.src = typeof url === 'string' ? url : url.url;
       img.alt = "";
       img.classList.add("gallery-img");
       li.appendChild(img);

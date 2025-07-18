@@ -6,6 +6,7 @@
     <script type="module">
         import { renderImages } from './js/image_list.js';
 
+        // Async load the selected image set
         async function loadImageSet(defaultSet = "ceremony") {
             const set = window.location.hash ? window.location.hash.substring(1) : defaultSet;
             const list = document.getElementById("image-list");
@@ -13,6 +14,7 @@
 
             try {
                 const res = await fetch(`/links/${set}.json`);
+                console.log("NOAH LOADED SOMETHING")
                 if (!res.ok) throw new Error(`Failed to load ${set}.json`);
                 const imageUrls = await res.json();
                 renderImages(imageUrls);
