@@ -14,7 +14,6 @@
 
             try {
                 const res = await fetch(`/links/${set}.json`);
-                console.log("NOAH LOADED SOMETHING")
                 if (!res.ok) throw new Error(`Failed to load ${set}.json`);
                 const imageUrls = await res.json();
                 renderImages(imageUrls);

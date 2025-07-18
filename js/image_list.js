@@ -5,7 +5,7 @@ function initMasonry() {
   if (!grid) return;
 
   // Wait for images to load before Masonry layout
-  imagesLoaded(grid, function() {
+  imagesLoaded(grid, function () {
     new Masonry(grid, {
       itemSelector: '.box',
       columnWidth: '.box',
@@ -20,26 +20,31 @@ export function renderImages(imageUrls) {
   const list = document.getElementById("image-list");
   list.innerHTML = ""; // clear existing image list
 
-  imageUrls.forEach(url => {
-      const li = document.createElement("li");
-      li.classList.add("box");
-      const img = document.createElement("img");
-      img.src = typeof url === 'string' ? url : url.url;
-      img.alt = "";
-      img.classList.add("gallery-img");
-      li.appendChild(img);
-      list.appendChild(li);
-      // Trigger animation by adding 'show' class on next animation frame
-      requestAnimationFrame(() => {
-        li.classList.add("show");
-      });
+  imageUrls.forEach(({ thumbnail, full }, index) => {
+    const li = document.createElement("li");
+    li.classList.add("box");
+    li.innerHTML = `
+      <div class="inner">
+        <a href="${full}" class="glightbox">
+          <img src="${thumbnail}" alt="image" />
+        </a>
+      </div>
+      `;
+    list.appendChild(li);
+    // Trigger animation by adding 'show' class on next animation frame
+    requestAnimationFrame(() => {
+      li.classList.add("show");
+    });
   });
 
   // Reinitialize glightbox if needed
   if (typeof GLightbox === "function") {
-      GLightbox({ selector: '.gallery-img' });
+    GLightbox({ selector: '.glightbox' });
   }
 
   // Initialize Masonry
   initMasonry();
 }
+
+// Initialize Lightbox
+GLightbox({ selector: '.glightbox' });
