@@ -19,6 +19,8 @@ function initMasonry() {
 export function renderImages(imageUrls) {
   const list = document.getElementById("image-list");
   list.innerHTML = ""; // clear existing image list
+  console.log("Initial list");
+  console.log(list);
 
   imageUrls.forEach(({ thumbnail, full }, index) => {
     const li = document.createElement("li");
@@ -31,11 +33,15 @@ export function renderImages(imageUrls) {
       </div>
       `;
     list.appendChild(li);
+    console.log(li)
     // Trigger animation by adding 'show' class on next animation frame
     requestAnimationFrame(() => {
       li.classList.add("show");
     });
   });
+
+  console.log("Full list");
+  console.log(list);
 
   // Reinitialize glightbox if needed
   if (typeof GLightbox === "function") {
